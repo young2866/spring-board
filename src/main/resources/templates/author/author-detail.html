@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous">
+  <title>Author Details</title>
+  <style>
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    button {
+      margin-top: 10px;
+    }
+
+    #update-form {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<div th:replace="header :: headerFragment"></div>
+<h1 class="display-4">Author Details</h1>
+<table class="table">
+  <tr>
+    <th>ID</th>
+    <td th:text="${author.id}"></td>
+  </tr>
+  <tr>
+    <th>이름</th>
+    <td th:text="${author.name}"></td>
+  </tr>
+  <tr>
+    <th>이메일</th>
+    <td th:text="${author.email}"></td>
+  </tr>
+  <tr>
+    <th>비밀번호</th>
+    <td th:text="${author.password}"></td>
+  </tr>
+  <tr>
+    <th>글 작성 횟수</th>
+    <td th:text="${author.postCount}"></td>
+  </tr>
+  <tr>
+    <th>회원 구분</th>
+    <td th:text="${author.role}"></td>
+  </tr>
+  <tr>
+    <th>생성 날짜</th>
+    <td th:text="${author.createdTime}"></td>
+  </tr>
+</table>
+<button class="btn btn-primary" onclick="display()">수정</button>
+<a th:href="@{'/author/delete/' + ${author.id}}">
+  <button class="btn btn-danger">삭제</button>
+</a>
+<div id="update-form">
+  <form action="http://localhost:8080/author/update" method="post" id ="updateForm">
+    <div class="mb-3">
+      <label for="name" class="form-label">이름:</label>
+      <input type="text" class="form-control" id="name" name="name" th:value="${author.name}">
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">이메일:</label>
+      <input type="text" class="form-control" id="email" name="email" th:value="${author.email}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">비밀번호:</label>
+      <input type="password" class="form-control" id="password" name="password"
+             th:value="${author.password}">
+    </div>
+    <button type="submit" class="btn btn-success">수정 완료</button>
+    <button type="button" class="btn btn-secondary" onclick="cancelUpdate()">취소</button>
+  </form>
+</div>
+<script>
+  function display() {
+    document.getElementById('update-form').style.display = 'block';
+  }
+  function cancelUpdate() {
+    document.getElementById('update-form').style.display = 'none';
+    document.getElementById('updateForm').reset(); // 폼 초기화
+  }
+</script>
+</body>
+</html>
